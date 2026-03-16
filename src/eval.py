@@ -1,0 +1,1 @@
+# Evaluate PINN on grid, compare with exact and FDM
