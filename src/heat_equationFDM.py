@@ -4,7 +4,7 @@ import numpy as np
 import plotly.graph_objects as go
 
 class heat_equation_FDM:
-    def __init__(self, alpha=1.0, x_left=0.0, x_right=1.0, u_left=24.0, u_right=50.0, u_ic=24.0):
+    def __init__(self, alpha=1.0, x_left=0.0, x_right=1.0, u_left=24.0, u_right=100.0, u_ic=24.0):
         self.alpha = alpha
         self.x_left = x_left
         self.x_right = x_right

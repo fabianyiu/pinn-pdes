@@ -1,14 +1,18 @@
 - Dirichlet condition used 
 - Insetantaneous heat at the B.C not too realistic in that sense but simplest to implement for quick experiment 
 
+Solution convention:
+Sol[i,j] Time and Spatial convention (row = time, column = space).
 
 Exact:
-- Exact solution had to be hand calculated first, B.C affects solution heavily.
+- Exact solution had to be hand calculated first, B.C affects solution heavily. This process is hard to atutomated.
     - **Dirichlet**
     - Neumann
     - Robin
 - Gibbs phenonenon is seen
-    - oscillations awround BC where IC and BC don't agree 
+    - oscillations awround BC where IC and BC don't agree
+- Triple loop (tNum x xNum x N ),  slow and suitable for refrence only 
+
 
 FDM:
 - delx = 1.0/99 used as 100 points on [0,1] so 99 gaps mimicing exact

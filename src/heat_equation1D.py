@@ -8,7 +8,7 @@ import numpy as np
 import plotly.graph_objects as go
 
 class heat_equation1D:
-    def __init__(self, alpha=1.0, x_left=0.0, x_right=1.0, u_left=24.0, u_right=50.0, u_ic=24.0):
+    def __init__(self, alpha=1.0, x_left=0.0, x_right=1.0, u_left=24.0, u_right=100.0, u_ic=24.0):
         self.alpha = alpha
         self.x_left = x_left
         self.x_right = x_right
@@ -55,7 +55,7 @@ class heat_equation1D:
 
     def visual(self,sol, x_grid, t_grid):
         X, T = np.meshgrid(x_grid, t_grid)
-        z_min, z_max = float(self.u_left), float(np.max(sol))
+        z_min, z_max = float(np.min(sol)), float(np.max(sol))
         n_levels = 25
         step = (z_max - z_min) / (n_levels + 1) if z_max > z_min else 1.0
         fig = go.Figure(data=[go.Surface(
