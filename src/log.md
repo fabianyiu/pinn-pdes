@@ -32,6 +32,48 @@ PINN:
 - IC, Boundary, Collocation points are all separate, as they are independently evaluated on loss func 
     - There are tutorials on YT on PINN that stack these but this is an alternative mini-batching strategy where the proportion of IC vs BC points vary randomly each epoch, it is kept separte here for explicit control over ewach loss term's contribution.
 - No enabling of cuda as this is quick research project. But to implement only a few lines 
+- PINN hybrid supervised and unsupervised leanring. Supervised with labels at IC, BC but unsupervised and finding pattern for collocation points BC
+
+4 runs:
+1. Neutral: lam_pde=1, lam_ic=1, lam_bc=1 (Done labeled in results neutral_PINN)
+2. BC heavy: lam_bc=10, lam_pde=1, lam_ic=1
+3. IC heavy: lam_ic=10, lam_pde=1, lam_bc=1
+4. PDE heavy: lam_pde=10, lam_ic=1, lam_bc=1
+
+No early stopping implemented but rather fixed epoch to observe where each end up.
+
+To change run need to switch out:
+- Lambda for loss value wanted to change (Line 60)
+- Residual title (Line 120)
+- Plot saved name (Line 124)
+- Model checkpoint saving file name (Line 129)
+
+Expected observations:
+BC heavy → BCs satisfied quickly, but PDE physics may be wrong in the interior.
+IC heavy → initial condition fits well, but solution may drift over time.
+PDE heavy → physics satisfied in interior, but may violate BCs/IC.
+
+
+- loss plot implemented like starccm
+    - Can clearly see behaviour refer to first try neutral_pinn_lossV1 sys.png BC, behaviour 
+    Factors/ideas that can improve this and which were tested 
+    - Expanding out architecture? why? or shrinking idk
+    - Alpha is the problem? Thermal diffusivity for most material much smaller? 0.0001 for steel? larger alpha makes u_xxx term harder to learn 
+    - Learning rate too high for late learning 
+        - maybe reasonable to add a sheduler for late training 
+    - Try lam_BC =  higher and see if this helps 
+    - Another thing is that the loss converfged at high value 10^1 stuck in local minimum or doesn't have enough cpaicity, known failuremode in loss landscape get stuck 
+
+Tried to do normalisation of IC, BCs 
+    - Normalise to 0-1 range for training
+    - Eval reverese by doing u_actual = u_normalised * 76 + 24
+        - Training results straight away down to loss approx e-3
+        - No need for standardScaler as it fits mean/std on unknown data; our u range is fixed by BCs (24–100), so can just rescale by hand.
+        - No need and can't sacle for PDE part since unsupervised but with x and t in nice range it hsould be fine. Just minimising r^2
+
+- No early stopping implemented beacuse want to keep consistent on all four setups. Fixed epoc to observe where each setup ends up
+
+Remember to close interactive residual plot to save the .pt file
 
 Notes:
 - Next time for quick testing I think no need exact equation... even just FDM with a forcing term could be accurate enough as reference? idk unless very complicated?

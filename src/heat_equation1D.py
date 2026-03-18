@@ -83,10 +83,10 @@ class heat_equation1D:
         )
         fig.show()  # opens in browser or renders in Jupyter
 
-#Testing
-pde = heat_equation1D()
-t_end, xNum, tNum = 0.1, 100, 100
-sol = pde.exact(t=t_end, xNum=xNum, tNum=tNum)
-x_grid = np.linspace(pde.x_left, pde.x_right, xNum)
-t_grid = np.linspace(0, t_end, tNum)
-pde.visual(sol, x_grid, t_grid)
+if __name__ == "__main__":
+    pde = heat_equation1D()
+    t_end, xNum, tNum = 0.1, 100, 100
+    sol = pde.exact(t=t_end, xNum=xNum, tNum=tNum)
+    x_grid = np.linspace(pde.x_left, pde.x_right, xNum)
+    t_grid = np.linspace(0, t_end, tNum)
+    pde.visual(sol, x_grid, t_grid)

@@ -66,9 +66,9 @@ class heat_equation_FDM:
         )
         fig.show()
 
-#Testing 
-pde = heat_equation_FDM()
-sol, xlen, tlen = pde.solve(t=0.1)
-x_grid = np.linspace(pde.x_left, pde.x_right, xlen)
-t_grid = np.linspace(0, 0.1, tlen)
-pde.visual(sol, x_grid, t_grid)
+if __name__ == "__main__":
+    pde = heat_equation_FDM()
+    sol, xlen, tlen = pde.solve(t=0.1)
+    x_grid = np.linspace(pde.x_left, pde.x_right, xlen)
+    t_grid = np.linspace(0, 0.1, tlen)
+    pde.visual(sol, x_grid, t_grid)

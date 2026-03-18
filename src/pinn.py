@@ -7,10 +7,11 @@ class pinn(nn.Module):
         # Needed for tracking weights and bias 
         super().__init__()
         self.net = nn.Sequential(
-            nn.Linear(2, 32), nn.Tanh(), # 2 inputs x,t
-            nn.Linear(32, 32), nn.Tanh(),
-            nn.Linear(32, 32), nn.Tanh(),
-            nn.Linear(32, 1), # 1 output u, temp
+            nn.Linear(2, 64), nn.Tanh(), # 2 inputs x,t
+            nn.Linear(64, 64), nn.Tanh(),
+            nn.Linear(64, 64), nn.Tanh(),
+            nn.Linear(64, 64), nn.Tanh(),
+            nn.Linear(64, 1) # 1 output temp(u)
         )
     def forward(self, x, t):
         # stacks x and t column together into a (N,2) tensor, passing through the network to get prediction of (N,1)
