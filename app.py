@@ -135,14 +135,15 @@ def compute_metrics(u_pred, u_ref):
     return mae, rmse, maxe
 
 
-def surface_trace(sol, name):
+def surface_trace(sol, name, show_colorbar=False):
     z_min, z_max = float(np.min(sol)), float(np.max(sol))
     n_levels = 25
     step = (z_max - z_min) / (n_levels + 1) if z_max > z_min else 1.0
     return go.Surface(
         x=x_grid, y=t_grid, z=sol,
         name=name,
-        showscale=False,
+        showscale=show_colorbar,
+        colorbar=dict(title="u (°C)") if show_colorbar else None,
         contours=dict(
             z=dict(
                 show=True, start=z_min, end=z_max, size=step,
@@ -174,10 +175,11 @@ def build_figure(u_exact, u_fdm, u_pinn, title):
     for col, (sol, name) in enumerate(
         [(u_exact, "Exact"), (u_fdm, "FDM"), (u_pinn, "PINN")], start=1
     ):
-        fig.add_trace(surface_trace(sol, name), row=1, col=col)
+        show_colorbar = (col == 3)  # only on the last subplot (PINN)
+        fig.add_trace(surface_trace(sol, name, show_colorbar=show_colorbar), row=1, col=col)
         fig.update_scenes(scene, row=1, col=col)
         fig.update_scenes(camera=camera, row=1, col=col)
-
+    
     # Force Plotly to apply our default camera each render (avoid reusing prior UI state)
     fig.update_layout(
         uirevision=None,
