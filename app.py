@@ -29,11 +29,32 @@ u_max   = 100.0
 
 checkpoint_dir = os.path.join(os.path.dirname(__file__), "Results", "Checkpoints")
 
+lambda_text = {
+    "Neutral":   r"$\lambda_{pde}=1,\ \lambda_{ic}=1,\ \lambda_{bc}=1$",
+    "BC heavy":  r"$\lambda_{pde}=1,\ \lambda_{ic}=1,\ \lambda_{bc}=10$",
+    "IC heavy":  r"$\lambda_{pde}=1,\ \lambda_{ic}=10,\ \lambda_{bc}=1$",
+    "PDE heavy": r"$\lambda_{pde}=10,\ \lambda_{ic}=1,\ \lambda_{bc}=1$",
+}
+
+lambda_values = {
+    "Neutral":   (1, 1, 1),
+    "BC heavy":  (1, 1, 10),
+    "IC heavy":  (1, 10, 1),
+    "PDE heavy": (10, 1, 1),
+}
+
+graph_title_map = {
+    "Neutral": "Neutral Loss",
+    "BC heavy": "BC dominated loss function",
+    "IC heavy": "IC dominated loss function",
+    "PDE heavy": "PDE dominated loss function",
+}
+
 runs = {
-    "Neutral  (lam_pde=1, lam_ic=1, lam_bc=1)": "neutral_pinn.pt",
-    "BC heavy (lam_bc=10)":                       "bc_heavy_pinn.pt",
-    "IC heavy (lam_ic=10)":                       "ic_heavy_pinn.pt",
-    "PDE heavy (lam_pde=10)":                     "pde_heavy_pinn.pt",
+    "Neutral":   "neutral_pinn.pt",
+    "BC heavy":  "bc_heavy_pinn.pt",
+    "IC heavy":  "ic_heavy_pinn.pt",
+    "PDE heavy": "pde_heavy_pinn.pt",
 }
 
 x_grid = np.linspace(x_left, x_right, x_num)
@@ -158,16 +179,31 @@ def build_figure(u_exact, u_fdm, u_pinn, title):
         fig.update_scenes(camera=camera, row=1, col=col)
 
     # Force Plotly to apply our default camera each render (avoid reusing prior UI state)
-    fig.update_layout(uirevision=None, title_text=title, title_x=0.5, height=520)
+    fig.update_layout(
+        uirevision=None,
+        title_text=title,
+        title_x=0.5,
+        title_xanchor="center",
+        title_font=dict(size=26),
+        margin=dict(t=60),
+        height=430,
+    )
     return fig
 
 
 # ── page config ───────────────────────────────────────────────────────────────
-st.set_page_config(page_title="PINN Heat Equation", layout="wide")
+st.set_page_config(page_title="Investigation on Physics Informed Neural Networks for Heat Equation", layout="wide")
 
 st.markdown(
     """
     <style>
+    /* tighten overall page padding/margins */
+    .block-container { padding-top: 1rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+
+    /* reduce the vertical gap between the plot and the next section */
+    div[data-testid="stPlotlyChart"] { margin-bottom: -0.5rem; }
+    div[data-testid="stSubheader"] { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+
     /* Hide the little link/anchor icon next to headings */
     a[aria-label="Link to this heading"],
     a.header-anchor,
@@ -193,17 +229,47 @@ if st.session_state.page == "cover":
         unsafe_allow_html=True,
     )
     st.markdown(
-        "<h3 style='text-align:center; color:grey;'>Solving the 1D Heat Equation</h3>",
+        "<h3 style='text-align:center; color:grey;'>When Physics Constraints Compete: Understanding PINN Failure Modes</h3>",
         unsafe_allow_html=True,
     )
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(
-        "<p style='text-align:center; font-size:1.1rem;'>"
-        "Comparing PINN solutions under different loss weightings<br>"
-        "against the Exact (Fourier series) and FDM numerical solutions."
-        "</p>",
+        """
+<div style="font-size:1.25rem; line-height:1.5; max-width: 1200px; margin: 0 auto; padding: 0.4rem; text-align: center;">
+  <p>
+    <b>
+      Physics-Informed Neural Networks don’t just solve equations, they negotiate between competing constraints.
+    </b>
+    By introducing a controlled mismatch between initial and boundary conditions, this project exposes a core issue: 
+    <b>loss terms do not cooperate, they compete.</b> 
+    We compare analytical solutions, finite difference methods, and PINNs to show how loss weighting determines what the model satisfies and what it ignores.
+  </p>
+</div>
+        """,
         unsafe_allow_html=True,
     )
+
+    st.latex(r"\Large \mathcal{L}=\lambda_{pde}\mathcal{L}_{pde}+\lambda_{ic}\mathcal{L}_{ic}+\lambda_{bc}\mathcal{L}_{bc}.")
+
+    st.markdown(
+        """
+        <div style="font-size:1.1rem; line-height:1.4; max-width: 850px; margin: 0 auto; padding: 0.15rem 1rem 0 1rem; text-align: center; color: #a8a8a8;">
+          Here, <i>&lambda;<sub>pde</sub></i>, <i>&lambda;<sub>ic</sub></i>, and <i>&lambda;<sub>bc</sub></i> control how strongly the model enforces each objective.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <div style="font-size:1.15rem; line-height:1.55; max-width: 950px; margin: 1.0rem auto; padding: 0.2rem 1rem; text-align: center; color: #d0d0d0;">
+          The PINN is trained by minimising a weighted loss made up of three parts: the PDE residual, the initial condition, and the boundary condition.
+          By changing the weights on these terms, we can see which constraints the model prioritizes and where error is pushed when they conflict.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     st.markdown("<br><br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
@@ -213,14 +279,22 @@ if st.session_state.page == "cover":
 
 # ── results page ──────────────────────────────────────────────────────────────
 else:
-    if st.button("← Back"):
-        st.session_state.page = "cover"
-        st.rerun()
+    st.title("When Constraints Compete: PINN Loss Trade-offs")
+    st.markdown("<p style='font-size:1.4rem;'>Adjust constraint weighting to observe how the solution redistributes error across the domain.</p>", unsafe_allow_html=True)
 
-    st.title("PINN Evaluation — Loss Weighting Comparison")
-    st.markdown("Select a loss weighting configuration to view the 3D surface comparison and error metrics.")
-
-    run_label = st.selectbox("Loss weighting configuration", list(runs.keys()))
+    st.markdown(
+        "<div style='font-size:1.0rem; font-weight:600; line-height:0.5; margin-top:0.0rem; margin-bottom:0.0rem;'>"
+        "Loss weighting configuration:"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+    run_label = st.selectbox("", list(runs.keys()))
+    if run_label in lambda_values:
+        lam_pde, lam_ic, lam_bc = lambda_values[run_label]
+        st.markdown(
+            rf"$$\Large \mathcal{{L}} = {lam_pde}\,\mathcal{{L}}_{{pde}} + {lam_ic}\,\mathcal{{L}}_{{ic}} + {lam_bc}\,\mathcal{{L}}_{{bc}}$$",
+            unsafe_allow_html=True,
+        )
     fname     = runs[run_label]
     ckpt      = os.path.join(checkpoint_dir, fname)
 
@@ -235,7 +309,7 @@ else:
 
     # 3D surface plot
     st.plotly_chart(
-        build_figure(u_exact, u_fdm, u_pinn, run_label),
+        build_figure(u_exact, u_fdm, u_pinn, graph_title_map.get(run_label, run_label)),
         use_container_width=True,
     )
 

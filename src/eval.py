@@ -30,10 +30,10 @@ checkpoint_dir = os.path.join(os.path.dirname(__file__), "..", "Results", "Check
 
 # Runs for evaluation
 runs = [
-    ("neutral",   "neutral_pinn.pt",   "Neutral  (lam_pde=1, lam_ic=1, lam_bc=1)"),
-    ("bc_heavy",  "bc_heavy_pinn.pt",  "BC heavy (lam_bc=10)"),
-    ("ic_heavy",  "ic_heavy_pinn.pt",  "IC heavy (lam_ic=10)"),
-    ("pde_heavy", "pde_heavy_pinn.pt", "PDE heavy (lam_pde=10)"),
+    ("neutral",   "neutral_pinn.pt",   "Neutral  (λ_pde=1, λ_ic=1, λ_bc=1)"),
+    ("bc_heavy",  "bc_heavy_pinn.pt",  "BC heavy (λ_bc=10)"),
+    ("ic_heavy",  "ic_heavy_pinn.pt",  "IC heavy (λ_ic=10)"),
+    ("pde_heavy", "pde_heavy_pinn.pt", "PDE heavy (λ_pde=10)"),
 ]
 
 # Shared evaluation grid

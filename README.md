@@ -56,3 +56,6 @@ python train_pinn.py
 python run_fdm.py
 ```
 ## Discussion and Results
+
+
+Experimental/Dev notes are located at src/log.md 
