@@ -1,11 +1,13 @@
 # PINNs vs Classical PDE Solvers under Data Scarcity
-![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Heat Equation](https://img.shields.io/badge/PDE-Heat%20Equation-red)
+![PINN](https://img.shields.io/badge/Model-PINN-blueviolet)
+![SciML](https://img.shields.io/badge/Direction-Scientific%20Machine%20Learning-purple)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-red)
 ![NumPy](https://img.shields.io/badge/NumPy-Scientific%20Computing-013243?logo=numpy)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-Visualisation-blue)
 ![PDE](https://img.shields.io/badge/Physics-PDE-red)
 ![Method](https://img.shields.io/badge/Numerical%20Method-Finite%20Difference-orange)
-![SciML](https://img.shields.io/badge/Direction-Scientific%20Machine%20Learning-purple)
+![Streamlit](https://img.shields.io/badge/Streamlit-Web%20App-FF4B4B?logo=streamlit&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 # Description
@@ -17,7 +19,12 @@ The setup introduces a deliberate mismatch between initial and boundary conditio
 The main focus is on PINNs: how the balance between PDE, initial condition, and boundary condition losses affects the learned solution and training dynamics.
 
 A Streamlit app provides an interactive interface to explore these effects and compare solutions across different loss weightings.
----
+
+## App example usage 
+
+<p align="center">
+  <img src="Assets/Example_1.png" width="1000">
+</p>
 
 ## Physics Scenario
 
@@ -26,8 +33,6 @@ We model a sudden turn-on of heat at the right boundary: the rod starts uniforml
 The discontinuity is not due to a physical defect, but is introduced by the mismatch between initial and boundary conditions at the corner. This is intentional: it provides a controlled test case with a known analytical solution.
 
 This setup allows us to compare how different methods handle sharp jumps and related effects (e.g. Gibbs oscillations in the Fourier solution), and to observe whether PINNs smooth out or capture the discontinuity.
-
----
 
 ## Heat Equation
 
@@ -43,8 +48,6 @@ Boundary and initial conditions are chosen so that an **analytical solution exis
 - **Finite Difference Method (FDM)** (central differencing scheme)  
 - **Physics-Informed Neural Networks (PINNs)** (hybrid supervised + PDE-constrained learning)  
 
----
-
 ## How to Run
 
 ```bash
@@ -53,13 +56,6 @@ cd yourrepo
 pip install -r requirements.txt
 streamlit run app.py
 ```
-
-## App example usage 
-
-<p align="center">
-  <img src="Assets/Example_1.png" width="1000">
-</p>
-
 
 ## Error metrics 
 
