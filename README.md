@@ -10,8 +10,6 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-Web%20App-FF4B4B?logo=streamlit&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-# Description
-
 This project simulates 1D heat flow in a rod and compares three approaches: an exact solution, a finite-difference method (FDM), and a physics-informed neural network (PINN).
 
 The setup introduces a deliberate mismatch between initial and boundary conditions (the rod starts at 24°C while one end is fixed at 100°C from t=0), creating a discontinuity at the boundary. This allows us to study how different methods handle the resulting behaviour.
