@@ -56,7 +56,9 @@ streamlit run app.py
 
 ## App example usage 
 
-![PINN Loss Trade-off Example](Assets/example_1.png)
+<p align="center">
+  <img src="Assets/example_1.png" width="800">
+</p>
 
 
 ## Error metrics 
