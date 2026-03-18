@@ -57,7 +57,7 @@ streamlit run app.py
 ## App example usage 
 
 <p align="center">
-  <img src="Assets/example_1.png" width="800">
+  <img src="Assets/Example_1.png" width="800">
 </p>
 
 
