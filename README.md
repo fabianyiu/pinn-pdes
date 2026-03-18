@@ -10,13 +10,13 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-Web%20App-FF4B4B?logo=streamlit&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-This project simulates 1D heat flow in a rod and compares three approaches: an exact solution, a finite-difference method (FDM), and a physics-informed neural network (PINN).
+PINNs do not satisfy all constraints at once, they balance them.
 
-The setup introduces a deliberate mismatch between initial and boundary conditions (the rod starts at 24°C while one end is fixed at 100°C from t=0), creating a discontinuity at the boundary. This allows us to study how different methods handle the resulting behaviour.
+This project explores how loss weighting in Physics-Informed Neural Networks controls where error ends up. Using the 1D heat equation with a deliberate mismatch between initial and boundary conditions, we compare an exact solution, a finite-difference method (FDM), and a PINN to see how each handles the resulting discontinuity.
 
-The main focus is on PINNs: how the balance between PDE, initial condition, and boundary condition losses affects the learned solution and training dynamics.
+The focus is on how the PDE, initial condition, and boundary condition losses compete during training, and how changing their weights alters the learned solution.
 
-A Streamlit app provides an interactive interface to explore these effects and compare solutions across different loss weightings.
+An interactive Streamlit app allows you to vary these weights in 4 modes and observe how the model responds.
 
 ## App example usage 
 
