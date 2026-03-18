@@ -1,3 +1,5 @@
+# To run: streamlit run app.py
+
 # Use Streamlit for rapid prototyping
 import os
 import sys
@@ -54,10 +56,8 @@ def get_fdm():
         alpha=alpha, x_left=x_left, x_right=x_right,
         u_left=u_left, u_right=u_right, u_ic=u_ic,
     )
-    sol_raw, xlen, tlen = solver.solve(t=t_end)
+    sol_raw, xlen, tlen, delt = solver.solve(t=t_end)
     x_fdm = np.linspace(x_left, x_right, xlen)
-    delx  = (x_right - x_left) / (xlen - 1)
-    delt  = 0.4 * delx**2 / alpha
     t_fdm = np.linspace(0, delt * (tlen - 1), tlen)
     interp = RegularGridInterpolator(
         (t_fdm, x_fdm), sol_raw,
@@ -139,6 +139,11 @@ def build_figure(u_exact, u_fdm, u_pinn, title):
         subplot_titles=["Exact (Fourier)", "FDM", "PINN"],
         horizontal_spacing=0.02,
     )
+    camera = dict(
+        eye=dict(x=-1.6, y=-1.6, z=1.2),  # tweak viewpoint as needed
+        center=dict(x=0, y=0, z=0),
+        up=dict(x=0, y=0, z=1),
+    )
     scene = dict(
         xaxis_title="x (space)",
         yaxis_title="t (time)",
@@ -150,13 +155,31 @@ def build_figure(u_exact, u_fdm, u_pinn, title):
     ):
         fig.add_trace(surface_trace(sol, name), row=1, col=col)
         fig.update_scenes(scene, row=1, col=col)
+        fig.update_scenes(camera=camera, row=1, col=col)
 
-    fig.update_layout(title_text=title, title_x=0.5, height=520)
+    # Force Plotly to apply our default camera each render (avoid reusing prior UI state)
+    fig.update_layout(uirevision=None, title_text=title, title_x=0.5, height=520)
     return fig
 
 
 # ── page config ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="PINN Heat Equation", layout="wide")
+
+st.markdown(
+    """
+    <style>
+    /* Hide the little link/anchor icon next to headings */
+    a[aria-label="Link to this heading"],
+    a.header-anchor,
+    a.anchor-link,
+    .stMarkdown a[href^="#"],
+    .stMarkdown a[href*="#"] {
+        display: none !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 # ── session state for page navigation ────────────────────────────────────────
 if "page" not in st.session_state:

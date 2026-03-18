@@ -84,6 +84,7 @@ class heat_equation1D:
         fig.show()  # opens in browser or renders in Jupyter
 
 if __name__ == "__main__":
+    # Note alpha=1.0, x_left=0.0, x_right=1.0, u_left=24.0, u_right=100.0, u_ic=24.0 are default values
     pde = heat_equation1D()
     t_end, xNum, tNum = 0.1, 100, 100
     sol = pde.exact(t=t_end, xNum=xNum, tNum=tNum)

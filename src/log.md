@@ -75,6 +75,10 @@ Tried to do normalisation of IC, BCs
 
 Remember to close interactive residual plot to save the .pt file
 
+app.py 
+- For rapid prototyping 
+- Vibecoded for speed as physics are in place etc.
+
 Notes:
 - Next time for quick testing I think no need exact equation... even just FDM with a forcing term could be accurate enough as reference? idk unless very complicated?
 - Just wanted exact solution for comparision betweenn all. But in indusry FDM is the norm when uniformed then FEM is the next norm...

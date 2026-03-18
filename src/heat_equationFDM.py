@@ -33,7 +33,7 @@ class heat_equation_FDM:
             for j in range(1,xlen-1):
                 sol[i+1, j] = sol[i, j] + r * (sol[i, j+1] - 2*sol[i, j] + sol[i, j-1])
         
-        return sol, xlen, tlen
+        return sol, xlen, tlen, delt
 
 
 
@@ -68,7 +68,7 @@ class heat_equation_FDM:
 
 if __name__ == "__main__":
     pde = heat_equation_FDM()
-    sol, xlen, tlen = pde.solve(t=0.1)
+    sol, xlen, tlen, delt = pde.solve(t=0.1)
     x_grid = np.linspace(pde.x_left, pde.x_right, xlen)
     t_grid = np.linspace(0, 0.1, tlen)
     pde.visual(sol, x_grid, t_grid)
