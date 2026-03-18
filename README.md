@@ -68,8 +68,9 @@ Largest absolute temperature difference at any point on the grid (in °C). Highl
 
 ## Discussion and Results
 
+<div align="center">
 | Setup      | Comparison | MAE   | RMSE  | Max Error |
-|------------|-----------|-------|-------|-----------|
+|:------------:|:-----------:|:-------:|:-------:|:-----------:|
 | Neutral    | vs Exact  | 0.3071 | 1.0598 | 45.2426 |
 |            | vs FDM    | 0.4883 | 1.1135 | 45.2426 |
 | BC Heavy   | vs Exact  | 0.2805 | 1.2177 | 69.4912 |
@@ -78,6 +79,7 @@ Largest absolute temperature difference at any point on the grid (in °C). Highl
 |            | vs FDM    | 1.2134 | 1.9072 | 64.5622 |
 | PDE Heavy  | vs Exact  | 0.7928 | 1.9085 | 43.3580 |
 |            | vs FDM    | 0.9622 | 1.9891 | 41.8192 |
+</div>
 
 The results show a clear trade-off across different loss weightings. The neutral configuration provides the most balanced performance, achieving the lowest RMSE against the exact solution while maintaining moderate errors overall, suggesting it offers the best compromise when no constraint is prioritised. Increasing the boundary condition weight reduces average error (MAE), particularly against FDM, indicating better enforcement at the boundary. However, this leads to a significant increase in maximum error, meaning inaccuracies are pushed into the interior. In contrast, the IC-heavy case performs worst overall, with the highest MAE and RMSE, showing that overfitting the initial condition causes the solution to degrade over time. The PDE-heavy setup reduces maximum error, suggesting better satisfaction of the governing equation in the interior, but at the expense of higher overall error, likely due to weaker enforcement of boundary and initial conditions. Across all configurations, large maximum errors persist, highlighting that the discontinuity remains the dominant source of error. Overall, the results demonstrate that loss weighting does not eliminate error, but instead redistributes it depending on which constraints are prioritised.
 
