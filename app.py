@@ -231,7 +231,7 @@ if st.session_state.page == "cover":
         unsafe_allow_html=True,
     )
     st.markdown(
-        "<h3 style='text-align:center; color:grey;'>When Physics Constraints Compete: Understanding PINN Failure Modes</h3>",
+        "<h3 style='text-align:center; color:grey;'>When Physics Constraints Compete: PINN Behaviour and Trade-offs</h3>",
         unsafe_allow_html=True,
     )
     st.markdown("<br>", unsafe_allow_html=True)
@@ -281,7 +281,7 @@ if st.session_state.page == "cover":
 
 # ── results page ──────────────────────────────────────────────────────────────
 else:
-    st.title("When Constraints Compete: PINN Loss Trade-offs")
+    st.title("When Physics Constraints Compete: PINN Behaviour and Trade-offs")
     st.markdown("<p style='font-size:1.4rem;'>Adjust constraint weighting to observe how the solution redistributes error across the domain.</p>", unsafe_allow_html=True)
 
     st.markdown(

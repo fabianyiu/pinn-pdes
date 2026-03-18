@@ -1,4 +1,4 @@
-# PINNs vs Classical PDE Solvers under Data Scarcity
+# When Physics Constraints Compete: PINN Behaviour and Trade-offs
 ![Heat Equation](https://img.shields.io/badge/PDE-Heat%20Equation-red)
 ![PINN](https://img.shields.io/badge/Model-PINN-blueviolet)
 ![SciML](https://img.shields.io/badge/Direction-Scientific%20Machine%20Learning-purple)
