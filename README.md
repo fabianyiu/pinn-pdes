@@ -67,6 +67,7 @@ Max (Maximum Absolute Error)
 Largest absolute temperature difference at any point on the grid (in °C). Highlights the worst local error (e.g. at the boundary or near the discontinuity).
 
 ## Discussion and Results
+
 <p align="center">
 <table>
   <tr>
