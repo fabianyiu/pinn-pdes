@@ -67,19 +67,25 @@ Max (Maximum Absolute Error)
 Largest absolute temperature difference at any point on the grid (in °C). Highlights the worst local error (e.g. at the boundary or near the discontinuity).
 
 ## Discussion and Results
-
-<div align="center">
-| Setup      | Comparison | MAE   | RMSE  | Max Error |
-|:------------:|:-----------:|:-------:|:-------:|:-----------:|
-| Neutral    | vs Exact  | 0.3071 | 1.0598 | 45.2426 |
-|            | vs FDM    | 0.4883 | 1.1135 | 45.2426 |
-| BC Heavy   | vs Exact  | 0.2805 | 1.2177 | 69.4912 |
-|            | vs FDM    | 0.2771 | 1.1449 | 55.1377 |
-| IC Heavy   | vs Exact  | 1.0258 | 1.7776 | 64.5622 |
-|            | vs FDM    | 1.2134 | 1.9072 | 64.5622 |
-| PDE Heavy  | vs Exact  | 0.7928 | 1.9085 | 43.3580 |
-|            | vs FDM    | 0.9622 | 1.9891 | 41.8192 |
-</div>
+<p align="center">
+<table>
+  <tr>
+    <th>Setup</th>
+    <th>Comparison</th>
+    <th>MAE</th>
+    <th>RMSE</th>
+    <th>Max Error</th>
+  </tr>
+  <tr><td align="center">Neutral</td><td align="center">vs Exact</td><td align="center">0.3071</td><td align="center">1.0598</td><td align="center">45.2426</td></tr>
+  <tr><td align="center">Neutral</td><td align="center">vs FDM</td><td align="center">0.4883</td><td align="center">1.1135</td><td align="center">45.2426</td></tr>
+  <tr><td align="center">BC Heavy</td><td align="center">vs Exact</td><td align="center">0.2805</td><td align="center">1.2177</td><td align="center">69.4912</td></tr>
+  <tr><td align="center">BC Heavy</td><td align="center">vs FDM</td><td align="center">0.2771</td><td align="center">1.1449</td><td align="center">55.1377</td></tr>
+  <tr><td align="center">IC Heavy</td><td align="center">vs Exact</td><td align="center">1.0258</td><td align="center">1.7776</td><td align="center">64.5622</td></tr>
+  <tr><td align="center">IC Heavy</td><td align="center">vs FDM</td><td align="center">1.2134</td><td align="center">1.9072</td><td align="center">64.5622</td></tr>
+  <tr><td align="center">PDE Heavy</td><td align="center">vs Exact</td><td align="center">0.7928</td><td align="center">1.9085</td><td align="center">43.3580</td></tr>
+  <tr><td align="center">PDE Heavy</td><td align="center">vs FDM</td><td align="center">0.9622</td><td align="center">1.9891</td><td align="center">41.8192</td></tr>
+</table>
+</p>
 
 The results show a clear trade-off across different loss weightings. The neutral configuration provides the most balanced performance, achieving the lowest RMSE against the exact solution while maintaining moderate errors overall, suggesting it offers the best compromise when no constraint is prioritised. Increasing the boundary condition weight reduces average error (MAE), particularly against FDM, indicating better enforcement at the boundary. However, this leads to a significant increase in maximum error, meaning inaccuracies are pushed into the interior. In contrast, the IC-heavy case performs worst overall, with the highest MAE and RMSE, showing that overfitting the initial condition causes the solution to degrade over time. The PDE-heavy setup reduces maximum error, suggesting better satisfaction of the governing equation in the interior, but at the expense of higher overall error, likely due to weaker enforcement of boundary and initial conditions. Across all configurations, large maximum errors persist, highlighting that the discontinuity remains the dominant source of error. Overall, the results demonstrate that loss weighting does not eliminate error, but instead redistributes it depending on which constraints are prioritised.
 
